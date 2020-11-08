@@ -18,6 +18,8 @@ android {
         versionCode 1
         versionName "1.0"
 
+        buildConfigField("String", "openWeatherMap_api_key", "\"" + getOpenWeatherMapApiKey() + "\"")
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -72,4 +74,8 @@ dependencies {
     testImplementation "junit:junit:$rootProject.junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$rootProject.testExtJunit"
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
+}
+
+def getOpenWeatherMapApiKey() {
+    return project.findProperty("openWeatherMap_api_key")
 }
