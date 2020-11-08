@@ -1,29 +1,18 @@
 package com.mohamedhashim.robusta_task.ui.camera
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import com.mohamedhashim.robusta_task.R
 import com.mohamedhashim.robusta_task.common.extensions.allPermissionsGranted
+import com.mohamedhashim.robusta_task.common.extensions.toast
 
 class CameraActivity : AppCompatActivity() {
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera)
-        // Request camera permissions
-        if (allPermissionsGranted(this)) {
-            //TODO navigate to CameraFragment
-//            startCamera()
-        } else {
-            ActivityCompat.requestPermissions(
-                this, CameraFragment.REQUIRED_PERMISSIONS, CameraFragment.REQUEST_CODE_PERMISSIONS
-            )
-        }
-
     }
 
     override fun onRequestPermissionsResult(
@@ -32,11 +21,11 @@ class CameraActivity : AppCompatActivity() {
     ) {
         if (requestCode == CameraFragment.REQUEST_CODE_PERMISSIONS) {
             if (allPermissionsGranted(this)) {
-                //TODO navigate to CameraFragment
-//                startCamera()
+                //navigate to CameraFragment
+                findNavController(R.id.camera_fragment).navigate(R.id.action_splashFragment_to_cameraFragment)
+                toast(getString(R.string.permission_granted))
             } else {
-                Toast.makeText(this, "Permissions not granted by the user.", Toast.LENGTH_SHORT)
-                    .show()
+                toast(getString(R.string.permission_not_granted))
                 finish()
             }
         }

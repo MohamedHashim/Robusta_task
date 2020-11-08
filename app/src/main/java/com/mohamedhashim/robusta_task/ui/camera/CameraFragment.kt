@@ -8,13 +8,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
+import androidx.navigation.fragment.findNavController
 import com.mohamedhashim.robusta_task.R
 import com.mohamedhashim.robusta_task.base.DataBindingFragment
 import com.mohamedhashim.robusta_task.common.extensions.getOutputDirectory
@@ -60,7 +60,8 @@ class CameraFragment : DataBindingFragment() {
 
         startCamera()
         // Set up the listener for take photo button
-        camera_capture_button.setOnClickListener { takePhoto() }
+        camera_capture_button.setOnClickListener { takePhoto()
+        findNavController().navigate(R.id.action_cameraFragment_to_imageViewerFragment)}
 
         outputDirectory = getOutputDirectory(activity!!)
 
