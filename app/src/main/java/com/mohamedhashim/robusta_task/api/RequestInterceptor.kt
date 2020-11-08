@@ -13,7 +13,8 @@ class RequestInterceptor : Interceptor {
         val originalUrl = originalRequest.url
 
         val url = originalUrl.newBuilder()
-            .addQueryParameter("openWeatherMap_api_key", BuildConfig.openWeatherMap_api_key)
+            .addQueryParameter("appid", BuildConfig.open_weather_map_api_key)
+            .addQueryParameter("q", "cairo")
             .build()
 
         val requestBuilder = originalRequest.newBuilder().url(url)

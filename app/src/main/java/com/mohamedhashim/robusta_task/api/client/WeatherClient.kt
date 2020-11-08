@@ -13,6 +13,6 @@ class WeatherClient(private val service: WeatherService) {
     fun fetchWeather(
         onResult: (response: ApiResponse<WeatherResponse>) -> Unit
     ) {
-        this.service.fetchWeather("Cairo").transform(onResult)
+        this.service.fetchWeather().transform(onResult)
     }
 }

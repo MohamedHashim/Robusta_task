@@ -7,6 +7,9 @@ plugins {
     id 'androidx.navigation.safeargs.kotlin'
 }
 
+def localProperties = new Properties()
+localProperties.load(new FileInputStream(rootProject.file("local.properties")))
+
 android {
     compileSdkVersion rootProject.compileSdkVersion
     buildToolsVersion rootProject.buildToolsVersion
@@ -18,7 +21,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        buildConfigField("String", "openWeatherMap_api_key", "\"" + getOpenWeatherMapApiKey() + "\"")
+        buildConfigField "String", "open_weather_map_api_key", localProperties['open_weather_map_api_key']
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -71,11 +74,12 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$rootProject.hiltVersion"
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:$rootProject.hiltViewModelVersion"
 
+    // koin
+    implementation "org.koin:koin-android:$rootProject.koinVersion"
+    implementation "org.koin:koin-android-scope:$rootProject.koinVersion"
+    implementation "org.koin:koin-android-viewmodel:$rootProject.koinVersion"
+
     testImplementation "junit:junit:$rootProject.junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$rootProject.testExtJunit"
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
-}
-
-def getOpenWeatherMapApiKey() {
-    return project.findProperty("openWeatherMap_api_key")
 }
