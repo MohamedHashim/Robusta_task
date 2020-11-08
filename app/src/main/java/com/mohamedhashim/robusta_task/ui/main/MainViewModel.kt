@@ -1,11 +1,8 @@
 package com.mohamedhashim.robusta_task.ui.main
 
-import android.graphics.Movie
-import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.switchMap
-import com.mohamedhashim.robusta_task.adapters.LiveCoroutinesViewModel
+import com.mohamedhashim.robusta_task.base.LiveCoroutinesViewModel
 import com.mohamedhashim.robusta_task.data.repository.WeatherRepository
 import com.mohamedhashim.robusta_task.data.response.WeatherResponse
 
@@ -25,9 +22,4 @@ class MainViewModel constructor(
                 this.weatherRepository.loadWeathers { this.toastLiveData.postValue(it) }
             }
     }
-
-//    fun postMoviePage(page: Int) = this.moviePageLiveData.postValue(page)
-//    fun getFavouriteMovieList() = this.moviesRepository.getFavouriteMoviesList()
-
-
 }

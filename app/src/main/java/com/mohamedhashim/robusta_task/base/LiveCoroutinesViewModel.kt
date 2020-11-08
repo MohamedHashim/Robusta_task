@@ -1,4 +1,4 @@
-package com.mohamedhashim.robusta_task.adapters
+package com.mohamedhashim.robusta_task.base
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
