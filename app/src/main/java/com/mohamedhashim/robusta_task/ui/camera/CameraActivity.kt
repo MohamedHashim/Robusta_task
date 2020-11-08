@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.navigation.Navigation
 import com.mohamedhashim.robusta_task.R
 import com.mohamedhashim.robusta_task.common.extensions.allPermissionsGranted
 
@@ -12,7 +13,7 @@ class CameraActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_camera)
+        setContentView(R.layout.activity_camera)
         // Request camera permissions
         if (allPermissionsGranted(this)) {
             //TODO navigate to CameraFragment
@@ -40,4 +41,7 @@ class CameraActivity : AppCompatActivity() {
             }
         }
     }
+
+    override fun onSupportNavigateUp() =
+        Navigation.findNavController(this, R.id.cameraFragment).navigateUp()
 }

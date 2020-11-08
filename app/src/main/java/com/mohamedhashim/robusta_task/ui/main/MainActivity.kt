@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.mohamedhashim.robusta_task.R
-import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -18,7 +17,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_camera)
         observeMessages()
 
         this.viewModel.weatherLiveData.observe(this) {
@@ -32,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         val bannerDrawable = resources.getDrawable(R.drawable.banner)
         val bannerBitmap = drawableToBitmap(bannerDrawable)
         val fullBitmap = drawTextToBitmap(this, bannerBitmap!!, "Robusta !")
-        img.setImageBitmap(fullBitmap)
+//        img.setImageBitmap(fullBitmap)
 
     }
 
