@@ -1,6 +1,7 @@
 package com.mohamedhashim.robusta_task.ui.imageviewer
 
 import android.content.Context
+import android.content.Intent
 import android.content.res.Resources
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
@@ -12,6 +13,8 @@ import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.MimeTypeMap
+import android.widget.Toast
 import com.mohamedhashim.robusta_task.R
 import com.mohamedhashim.robusta_task.base.DataBindingFragment
 import com.mohamedhashim.robusta_task.databinding.FragmentImageViewerBinding
@@ -58,8 +61,11 @@ class ImageViewerFragment : DataBindingFragment() {
 
 
         val final = drawBitmapToBitmap(activity!!, capturedPhoto, scaledBanner)
-        saveWeatherPhoto(final!!)
         imageView.setImageBitmap(final)
+        saveWeatherPhoto(final!!)
+        share.setOnClickListener {
+            shareWeatherPhoto()
+        }
     }
 
     private fun saveWeatherPhoto(bitmap: Bitmap) {
@@ -75,6 +81,21 @@ class ImageViewerFragment : DataBindingFragment() {
             file.name,
             file.name
         )
+    }
+
+    private fun shareWeatherPhoto() {
+        try {
+            val myFile: File = File(photoPath)
+            val mime = MimeTypeMap.getSingleton()
+            val ext = myFile.name.substring(myFile.name.lastIndexOf(".") + 1)
+            val type = mime.getMimeTypeFromExtension(ext)
+            val sharingIntent = Intent("android.intent.action.SEND")
+            sharingIntent.type = type
+            sharingIntent.putExtra("android.intent.extra.STREAM", Uri.fromFile(myFile))
+            startActivity(Intent.createChooser(sharingIntent, getString(R.string.share_title)))
+        } catch (e: Exception) {
+            Toast.makeText(activity, e.message, Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun drawBitmapToBitmap(
