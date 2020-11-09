@@ -10,8 +10,8 @@ import com.mohamedhashim.robusta_task.data.entity.Wind
  */
 class WeatherResponse(
     val weather: List<Weather>,
-    val main: Main,
-    val wind: Wind,
+    val main: Main?,
+    val wind: Wind?,
     val name: String,
-    val sys: Sys
+    val sys: Sys?
 )

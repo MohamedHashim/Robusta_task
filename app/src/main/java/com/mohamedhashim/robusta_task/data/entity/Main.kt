@@ -8,6 +8,7 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 class Main(
+    val temp: Int,
     val pressure: Int,
     val humidity: Int
 ) : Parcelable

@@ -17,9 +17,12 @@ import android.webkit.MimeTypeMap
 import android.widget.Toast
 import com.mohamedhashim.robusta_task.R
 import com.mohamedhashim.robusta_task.base.DataBindingFragment
+import com.mohamedhashim.robusta_task.common.extensions.toast
+import com.mohamedhashim.robusta_task.data.response.WeatherResponse
 import com.mohamedhashim.robusta_task.databinding.FragmentImageViewerBinding
 import com.mohamedhashim.robusta_task.ui.camera.CameraFragment
 import kotlinx.android.synthetic.main.fragment_image_viewer.*
+import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
@@ -29,7 +32,10 @@ import java.io.OutputStream
  * Created by Mohamed Hashim on 11/9/2020.
  */
 class ImageViewerFragment : DataBindingFragment() {
-    lateinit var photoPath: String
+
+    private lateinit var photoPath: String
+    private val viewModel: ImageViewerViewModel by viewModel()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -38,35 +44,48 @@ class ImageViewerFragment : DataBindingFragment() {
         photoPath = requireArguments().get(CameraFragment.photoPathKey).toString()
         return binding<FragmentImageViewerBinding>(
             inflater, R.layout.fragment_image_viewer, container
-        ).root
+        ).apply {
+            viewModel = this@ImageViewerFragment.viewModel
+            lifecycleOwner = this@ImageViewerFragment
+        }.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        observeMessages()
+
         val savedUri = Uri.fromFile(File(photoPath))
 
         val capturedPhoto = MediaStore.Images.Media.getBitmap(activity!!.contentResolver, savedUri)
 
-        val bannerDrawable = resources.getDrawable(R.drawable.banner)
-        val bannerBitmap = drawableToBitmap(bannerDrawable)
-        val fullBitmap = drawTextToBitmap(activity!!, bannerBitmap!!, "Robusta !")
-        val res = drawTextToBitmap(activity!!, bannerBitmap, "")
 
-        val scaledBanner = Bitmap.createScaledBitmap(
-            fullBitmap!!,
-            capturedPhoto.width,
-            capturedPhoto.height / 4,
-            false
-        )
+        viewModel.weatherLiveData.observe(viewLifecycleOwner) {
+            if (it != null) {
 
+                val bannerDrawable = resources.getDrawable(R.drawable.banner)
+                val bannerBitmap = drawableToBitmap(bannerDrawable)
+                val fullBitmap = drawTextToBitmap(activity!!, bannerBitmap!!, it)
+//        val res = drawTextToBitmap(activity!!, bannerBitmap, "")
 
-        val final = drawBitmapToBitmap(activity!!, capturedPhoto, scaledBanner)
-        imageView.setImageBitmap(final)
-        saveWeatherPhoto(final!!)
-        share.setOnClickListener {
-            shareWeatherPhoto()
+                val scaledBanner = Bitmap.createScaledBitmap(
+                    fullBitmap!!,
+                    capturedPhoto.width,
+                    capturedPhoto.height / 4,
+                    false
+                )
+
+                val final = drawBitmapToBitmap(activity!!, capturedPhoto, scaledBanner)
+                imageView.setImageBitmap(final)
+                saveWeatherPhoto(final!!)
+                share.setOnClickListener {
+                    shareWeatherPhoto()
+                }
+            }
         }
     }
+
+    private fun observeMessages() =
+        this.viewModel.toastLiveData.observe(viewLifecycleOwner, { context?.toast(it.toString()) })
 
     private fun saveWeatherPhoto(bitmap: Bitmap) {
         var fOut: OutputStream? = null
@@ -161,7 +180,7 @@ class ImageViewerFragment : DataBindingFragment() {
     private fun drawTextToBitmap(
         gContext: Context,
         bmp: Bitmap,
-        gText: String
+        data: WeatherResponse
     ): Bitmap? {
         val resources: Resources = gContext.resources
         val scale: Float = resources.displayMetrics.density
@@ -186,12 +205,14 @@ class ImageViewerFragment : DataBindingFragment() {
 
         // draw text to the Canvas center
         val bounds = Rect()
-        paint.getTextBounds(gText, 0, gText.length, bounds)
+//        paint.getTextBounds(gText, 0, gText.length, bounds)
         val x = (bitmap.width - bounds.width()) / 2
-        val y = (bitmap.height + bounds.height()) / 2
-        canvas.drawText(gText, x.toFloat(), y.toFloat(), paint)
-//        canvas.drawText("second text", x.toFloat(), y.toFloat()+100, paint)
-//        canvas.drawText("third text", x.toFloat(), y.toFloat()+200, paint)
+        val y = (bitmap.height + bounds.height()) / 3
+        canvas.drawText(data.sys!!.country + ", " + data.name, 10f, y.toFloat(), paint)
+        canvas.drawText(data.weather[0].description, 10f, y.toFloat() + 120, paint)
+        canvas.drawText(data.main!!.temp.toString() + " C", 10f, y.toFloat() + 220, paint)
+        canvas.drawText("Humidity " + data.main.humidity, 10f, y.toFloat() + 320, paint)
+        canvas.drawText("Presser " + data.main.pressure, 10f, y.toFloat() + 420, paint)
         return bitmap
     }
 

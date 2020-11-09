@@ -19,7 +19,7 @@ import com.mohamedhashim.robusta_task.base.DataBindingFragment
 import com.mohamedhashim.robusta_task.common.extensions.getOutputDirectory
 import com.mohamedhashim.robusta_task.common.extensions.toast
 import com.mohamedhashim.robusta_task.databinding.FragmentCameraBinding
-import com.mohamedhashim.robusta_task.ui.main.MainViewModel
+import com.mohamedhashim.robusta_task.ui.imageviewer.ImageViewerViewModel
 import kotlinx.android.synthetic.main.fragment_camera.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.File
@@ -37,7 +37,7 @@ class CameraFragment : DataBindingFragment() {
     private var imageCapture: ImageCapture? = null
     private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
-    private val viewModel: MainViewModel by viewModel()
+    private val viewModel: ImageViewerViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,

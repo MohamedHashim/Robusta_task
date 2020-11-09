@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.mohamedhashim.robusta_task.ui.main.MainViewModel" />
+            type="com.mohamedhashim.robusta_task.ui.imageviewer.ImageViewerViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -1,4 +1,4 @@
-package com.mohamedhashim.robusta_task.ui.main
+package com.mohamedhashim.robusta_task.ui.imageviewer
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,7 +9,7 @@ import com.mohamedhashim.robusta_task.data.response.WeatherResponse
 /**
  * Created by Mohamed Hashim on 11/8/2020.
  */
-class MainViewModel constructor(
+class ImageViewerViewModel constructor(
     private val weatherRepository: WeatherRepository
 ) : LiveCoroutinesViewModel() {
 
