@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Robusta_task</string>
+    <string name="title_activity_camera">CameraActivity</string>
+    <string name="capture">Capture</string>
+    <string name="robusta">Robusta</string>
+    <string name="permission_not_granted">Permissions not granted by the user.</string>
+    <string name="permission_granted">Permission granted. Thank you!</string>
+    <string name="take_photo">Take Photo</string>
+    <string name="capture_failed">"Photo capture failed: "</string>
+    <string name="capture_succeeded">"Photo capture succeeded: "</string>
+    <string name="share_title">Share your weather photo using</string>
+    <string name="history">History</string>
+    <string name="share">Share</string>
+    <string name="not_found_data">There is no saved photos to show</string>
 </resources>
