@@ -1,7 +1,5 @@
 # Robusta task
 
-A movies app showing the popular and top rated movies with the ability of adding any movie in the favourite list.
-
 App Features
 ---------------
 
