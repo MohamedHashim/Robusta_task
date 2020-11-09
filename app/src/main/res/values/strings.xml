@@ -9,4 +9,6 @@
     <string name="capture_failed">"Photo capture failed: "</string>
     <string name="capture_succeeded">"Photo capture succeeded: "</string>
     <string name="share_title">Share your weather photo using</string>
+    <string name="history">History</string>
+    <string name="share">Share</string>
 </resources>

@@ -4,9 +4,11 @@ import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import com.mohamedhashim.robusta_task.R
-import com.mohamedhashim.robusta_task.ui.camera.CameraFragment.Companion.REQUIRED_PERMISSIONS
+import com.mohamedhashim.robusta_task.ui.fragments.CameraFragment.Companion.REQUIRED_PERMISSIONS
 import java.io.File
 
 /**
@@ -25,4 +27,9 @@ fun getOutputDirectory(activity: Activity): File {
     }
     return if (mediaDir != null && mediaDir.exists())
         mediaDir else activity.filesDir
+}
+
+fun initToolbar(toolbar: Toolbar, activity: AppCompatActivity) {
+    activity.setSupportActionBar(toolbar)
+    activity.supportActionBar?.title = activity.getString(R.string.robusta)
 }

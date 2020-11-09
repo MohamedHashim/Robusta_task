@@ -7,13 +7,13 @@
 
         <variable
             name="viewModel"
-            type="com.mohamedhashim.robusta_task.ui.imageviewer.ImageViewerViewModel" />
+            type="com.mohamedhashim.robusta_task.ui.viewmodels.ImageViewerViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.camera.CameraActivity">
+        tools:context=".ui.CameraActivity">
 
         <ImageButton
             android:id="@+id/camera_capture_button"
@@ -35,5 +35,45 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/red_bg_splash"
+                app:layout_collapseMode="pin">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/robusta"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/tv_size_20"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/btn"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="@dimen/margin_5"
+                        android:layout_marginEnd="@dimen/margin_5"
+                        android:layout_marginBottom="@dimen/margin_5"
+                        android:background="@drawable/history_shape"
+                        android:gravity="center"
+                        android:text="@string/history"
+                        android:textAllCaps="false" />
+                </RelativeLayout>
+            </androidx.appcompat.widget.Toolbar>
+        </RelativeLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

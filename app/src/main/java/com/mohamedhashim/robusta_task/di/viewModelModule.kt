@@ -1,6 +1,6 @@
 package com.mohamedhashim.robusta_task.di
 
-import com.mohamedhashim.robusta_task.ui.imageviewer.ImageViewerViewModel
+import com.mohamedhashim.robusta_task.ui.viewmodels.ImageViewerViewModel
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 

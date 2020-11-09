@@ -1,16 +1,15 @@
-package com.mohamedhashim.robusta_task.ui.splash
+package com.mohamedhashim.robusta_task.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.mohamedhashim.robusta_task.R
 import com.mohamedhashim.robusta_task.common.extensions.allPermissionsGranted
-import com.mohamedhashim.robusta_task.ui.camera.CameraFragment
+import com.mohamedhashim.robusta_task.ui.fragments.CameraFragment
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

@@ -16,7 +16,7 @@
         android:theme="@style/Theme.Robusta_task.NoActionBar">
 
         <activity
-            android:name=".ui.camera.CameraActivity"
+            android:name=".ui.CameraActivity"
             android:label="@string/title_activity_camera">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,4 +1,4 @@
-package com.mohamedhashim.robusta_task.ui.camera
+package com.mohamedhashim.robusta_task.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +7,7 @@ import androidx.navigation.findNavController
 import com.mohamedhashim.robusta_task.R
 import com.mohamedhashim.robusta_task.common.extensions.allPermissionsGranted
 import com.mohamedhashim.robusta_task.common.extensions.toast
+import com.mohamedhashim.robusta_task.ui.fragments.CameraFragment
 
 class CameraActivity : AppCompatActivity() {
 
@@ -16,8 +17,8 @@ class CameraActivity : AppCompatActivity() {
     }
 
     override fun onRequestPermissionsResult(
-        requestCode: Int, permissions: Array<String>, grantResults:
-        IntArray
+            requestCode: Int, permissions: Array<String>, grantResults:
+            IntArray
     ) {
         if (requestCode == CameraFragment.REQUEST_CODE_PERMISSIONS) {
             if (allPermissionsGranted(this)) {
@@ -32,5 +33,5 @@ class CameraActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp() =
-        Navigation.findNavController(this, R.id.cameraFragment).navigateUp()
+            Navigation.findNavController(this, R.id.cameraFragment).navigateUp()
 }

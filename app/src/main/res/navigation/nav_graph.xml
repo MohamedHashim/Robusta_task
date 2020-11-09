@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.mohamedhashim.robusta_task.ui.splash.SplashFragment"
+        android:name="com.mohamedhashim.robusta_task.ui.fragments.SplashFragment"
         android:label="SplashFragment">
         <action
             android:id="@+id/action_splashFragment_to_cameraFragment"
@@ -14,14 +14,21 @@
     </fragment>
     <fragment
         android:id="@+id/cameraFragment"
-        android:name="com.mohamedhashim.robusta_task.ui.camera.CameraFragment"
+        android:name="com.mohamedhashim.robusta_task.ui.fragments.CameraFragment"
         android:label="CameraFragment">
         <action
             android:id="@+id/action_cameraFragment_to_imageViewerFragment"
             app:destination="@id/imageViewerFragment" />
+        <action
+            android:id="@+id/action_cameraFragment_to_historyFragment"
+            app:destination="@id/historyFragment" />
     </fragment>
     <fragment
         android:id="@+id/imageViewerFragment"
-        android:name="com.mohamedhashim.robusta_task.ui.imageviewer.ImageViewerFragment"
+        android:name="com.mohamedhashim.robusta_task.ui.fragments.ImageViewerFragment"
         android:label="ImageViewerFragment" />
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.mohamedhashim.robusta_task.ui.fragments.HistoryFragment"
+        android:label="HistoryFragment" />
 </navigation>

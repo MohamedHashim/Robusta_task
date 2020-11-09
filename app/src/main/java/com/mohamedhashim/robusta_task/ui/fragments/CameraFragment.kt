@@ -1,4 +1,4 @@
-package com.mohamedhashim.robusta_task.ui.camera
+package com.mohamedhashim.robusta_task.ui.fragments
 
 import android.Manifest
 import android.net.Uri
@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
@@ -17,9 +18,10 @@ import androidx.navigation.fragment.findNavController
 import com.mohamedhashim.robusta_task.R
 import com.mohamedhashim.robusta_task.base.DataBindingFragment
 import com.mohamedhashim.robusta_task.common.extensions.getOutputDirectory
+import com.mohamedhashim.robusta_task.common.extensions.initToolbar
 import com.mohamedhashim.robusta_task.common.extensions.toast
 import com.mohamedhashim.robusta_task.databinding.FragmentCameraBinding
-import com.mohamedhashim.robusta_task.ui.imageviewer.ImageViewerViewModel
+import com.mohamedhashim.robusta_task.ui.viewmodels.ImageViewerViewModel
 import kotlinx.android.synthetic.main.fragment_camera.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.File
@@ -40,12 +42,12 @@ class CameraFragment : DataBindingFragment() {
     private val viewModel: ImageViewerViewModel by viewModel()
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         return binding<FragmentCameraBinding>(
-            inflater, R.layout.fragment_camera, container
+                inflater, R.layout.fragment_camera, container
         ).apply {
             viewModel = this@CameraFragment.viewModel
             lifecycleOwner = this@CameraFragment
@@ -58,11 +60,13 @@ class CameraFragment : DataBindingFragment() {
     }
 
     private fun initializeUI() {
+        initToolbar(toolbar, activity as AppCompatActivity)
 
         startCamera()
         // Set up the listener for take photo button
         //TODO make it in binding adapter
         camera_capture_button.setOnClickListener { takePhoto() }
+        btn.setOnClickListener { findNavController().navigate(R.id.action_cameraFragment_to_historyFragment) }
 
         outputDirectory = getOutputDirectory(activity!!)
 
@@ -80,7 +84,7 @@ class CameraFragment : DataBindingFragment() {
         cameraExecutor.shutdown()
     }
 
-
+//TODO move these functions to be generic
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(activity!!.baseContext)
 
@@ -90,13 +94,13 @@ class CameraFragment : DataBindingFragment() {
 
             // Preview
             val preview = Preview.Builder()
-                .build()
-                .also {
-                    it.setSurfaceProvider(viewFinder.createSurfaceProvider())
-                }
+                    .build()
+                    .also {
+                        it.setSurfaceProvider(viewFinder.createSurfaceProvider())
+                    }
 
             imageCapture = ImageCapture.Builder()
-                .build()
+                    .build()
 
             // Select back camera as a default
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
@@ -107,7 +111,7 @@ class CameraFragment : DataBindingFragment() {
 
                 // Bind use cases to camera
                 cameraProvider.bindToLifecycle(
-                    this, cameraSelector, preview, imageCapture
+                        this, cameraSelector, preview, imageCapture
                 )
 
             } catch (exc: Exception) {
@@ -123,10 +127,10 @@ class CameraFragment : DataBindingFragment() {
 
         // Create time-stamped output file to hold the image
         val photoFile = File(
-            outputDirectory,
-            SimpleDateFormat(
-                FILENAME_FORMAT, Locale.US
-            ).format(System.currentTimeMillis()) + ".jpg"
+                outputDirectory,
+                SimpleDateFormat(
+                        FILENAME_FORMAT, Locale.US
+                ).format(System.currentTimeMillis()) + ".jpg"
         )
 
         // Create output options object which contains file + metadata
@@ -135,26 +139,26 @@ class CameraFragment : DataBindingFragment() {
         // Set up image capture listener, which is triggered after photo has
         // been taken
         imageCapture.takePicture(
-            outputOptions,
-            ContextCompat.getMainExecutor(activity),
-            object : ImageCapture.OnImageSavedCallback {
-                override fun onError(exc: ImageCaptureException) {
-                    val msg = getString(R.string.capture_failed) + "${exc.message}"
-                    Log.e(TAG, msg, exc)
-                    activity!!.toast(msg)
-                }
+                outputOptions,
+                ContextCompat.getMainExecutor(activity),
+                object : ImageCapture.OnImageSavedCallback {
+                    override fun onError(exc: ImageCaptureException) {
+                        val msg = getString(R.string.capture_failed) + "${exc.message}"
+                        Log.e(TAG, msg, exc)
+                        activity!!.toast(msg)
+                    }
 
-                override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                    val savedUri = Uri.fromFile(photoFile)
-                    val msg = getString(R.string.capture_succeeded) + "$savedUri"
-                    Log.i(TAG, msg)
-                    activity!!.toast(msg)
-                    findNavController().navigate(
-                        R.id.action_cameraFragment_to_imageViewerFragment,
-                        createArguments(savedUri.path.toString())
-                    )
-                }
-            })
+                    override fun onImageSaved(output: ImageCapture.OutputFileResults) {
+                        val savedUri = Uri.fromFile(photoFile)
+                        val msg = getString(R.string.capture_succeeded) + "$savedUri"
+                        Log.i(TAG, msg)
+                        activity!!.toast(msg)
+                        findNavController().navigate(
+                                R.id.action_cameraFragment_to_imageViewerFragment,
+                                createArguments(savedUri.path.toString())
+                        )
+                    }
+                })
     }
 
     companion object {

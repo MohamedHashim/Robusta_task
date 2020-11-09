@@ -1,4 +1,4 @@
-package com.mohamedhashim.robusta_task.ui.imageviewer
+package com.mohamedhashim.robusta_task.ui.fragments
 
 import android.content.Context
 import android.content.Intent
@@ -20,7 +20,7 @@ import com.mohamedhashim.robusta_task.base.DataBindingFragment
 import com.mohamedhashim.robusta_task.common.extensions.toast
 import com.mohamedhashim.robusta_task.data.response.WeatherResponse
 import com.mohamedhashim.robusta_task.databinding.FragmentImageViewerBinding
-import com.mohamedhashim.robusta_task.ui.camera.CameraFragment
+import com.mohamedhashim.robusta_task.ui.viewmodels.ImageViewerViewModel
 import kotlinx.android.synthetic.main.fragment_image_viewer.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.File
