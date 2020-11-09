@@ -12,13 +12,14 @@ import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.graphics.scale
 import com.mohamedhashim.robusta_task.R
 import com.mohamedhashim.robusta_task.base.DataBindingFragment
 import com.mohamedhashim.robusta_task.databinding.FragmentImageViewerBinding
 import com.mohamedhashim.robusta_task.ui.camera.CameraFragment
 import kotlinx.android.synthetic.main.fragment_image_viewer.*
 import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStream
 
 
 /**
@@ -48,11 +49,32 @@ class ImageViewerFragment : DataBindingFragment() {
         val fullBitmap = drawTextToBitmap(activity!!, bannerBitmap!!, "Robusta !")
         val res = drawTextToBitmap(activity!!, bannerBitmap, "")
 
-        val scaledBanner=Bitmap.createScaledBitmap(fullBitmap!!, capturedPhoto.width, capturedPhoto.height/4, false)
+        val scaledBanner = Bitmap.createScaledBitmap(
+            fullBitmap!!,
+            capturedPhoto.width,
+            capturedPhoto.height / 4,
+            false
+        )
 
 
-        val final = drawBitmapToBitmap(activity!!,capturedPhoto, scaledBanner)
+        val final = drawBitmapToBitmap(activity!!, capturedPhoto, scaledBanner)
+        saveWeatherPhoto(final!!)
         imageView.setImageBitmap(final)
+    }
+
+    private fun saveWeatherPhoto(bitmap: Bitmap) {
+        var fOut: OutputStream? = null
+        val file = File(photoPath)
+        fOut = FileOutputStream(file)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 85, fOut)
+        fOut.flush()
+        fOut.close()
+        MediaStore.Images.Media.insertImage(
+            activity!!.contentResolver,
+            file.absolutePath,
+            file.name,
+            file.name
+        )
     }
 
     private fun drawBitmapToBitmap(
@@ -60,8 +82,8 @@ class ImageViewerFragment : DataBindingFragment() {
         bmp: Bitmap,
         b: Bitmap
     ): Bitmap? {
-        val resources: Resources = gContext.getResources()
-        val scale: Float = resources.getDisplayMetrics().density
+        val resources: Resources = gContext.resources
+        val scale: Float = resources.displayMetrics.density
         var bitmap = bmp
         var bitmapConfig = bitmap.config
         // set default bitmap config if none
@@ -78,7 +100,6 @@ class ImageViewerFragment : DataBindingFragment() {
 
         return bitmap
     }
-
 
 
     // Add photo above the other
@@ -121,8 +142,8 @@ class ImageViewerFragment : DataBindingFragment() {
         bmp: Bitmap,
         gText: String
     ): Bitmap? {
-        val resources: Resources = gContext.getResources()
-        val scale: Float = resources.getDisplayMetrics().density
+        val resources: Resources = gContext.resources
+        val scale: Float = resources.displayMetrics.density
         var bitmap = bmp
         var bitmapConfig = bitmap.config
         // set default bitmap config if none
@@ -138,7 +159,7 @@ class ImageViewerFragment : DataBindingFragment() {
         // text color - #3D3D3D
         paint.color = Color.rgb(61, 61, 61)
         // text size in pixels
-        paint.setTextSize((30 * scale).toInt().toFloat())
+        paint.textSize = (30 * scale).toInt().toFloat()
         // text shadow
         paint.setShadowLayer(1f, 0f, 1f, Color.BLACK)
 
