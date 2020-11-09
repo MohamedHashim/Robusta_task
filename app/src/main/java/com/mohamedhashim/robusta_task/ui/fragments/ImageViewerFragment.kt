@@ -62,7 +62,6 @@ class ImageViewerFragment : DataBindingFragment() {
                 val bannerDrawable = resources.getDrawable(R.drawable.banner)
                 val bannerBitmap = drawableToBitmap(bannerDrawable)
                 val fullBitmap = drawTextToBitmap(activity!!, bannerBitmap!!, it)
-//        val res = drawTextToBitmap(activity!!, bannerBitmap, "")
 
                 val scaledBanner = Bitmap.createScaledBitmap(
                         fullBitmap!!,
@@ -164,8 +163,8 @@ class ImageViewerFragment : DataBindingFragment() {
         val canvas = Canvas(bitmap)
         // new antialised Paint
         val paint = Paint(Paint.ANTI_ALIAS_FLAG)
-        // text color - #3D3D3D
-        paint.color = Color.rgb(61, 61, 61)
+
+        paint.color = Color.rgb(255, 255, 255)
         // text size in pixels
         paint.textSize = (30 * scale).toInt().toFloat()
         // text shadow
@@ -180,7 +179,7 @@ class ImageViewerFragment : DataBindingFragment() {
         canvas.drawText(data.weather[0].description, 10f, y.toFloat() + 120, paint)
         canvas.drawText(data.main!!.temp.toString() + " C", 10f, y.toFloat() + 220, paint)
         canvas.drawText("Humidity " + data.main.humidity, 10f, y.toFloat() + 320, paint)
-        canvas.drawText("Presser " + data.main.pressure, 10f, y.toFloat() + 420, paint)
+        canvas.drawText("Pressure " + data.main.pressure, 10f, y.toFloat() + 420, paint)
         return bitmap
     }
 

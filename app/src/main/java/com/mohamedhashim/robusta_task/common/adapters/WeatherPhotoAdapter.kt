@@ -14,6 +14,7 @@ import com.mohamedhashim.robusta_task.common.extensions.shareWeatherPhoto
 /**
  * Created by Mohamed Hashim on 11/9/2020.
  */
+//TODO Implement data binding for adapter to be generic
 class WeatherPhotoAdapter(photos: List<String>) : RecyclerView.Adapter<WeatherPhotoAdapter.ViewHolder?>() {
 
     private var mPhotos: List<String>? = photos
@@ -28,9 +29,10 @@ class WeatherPhotoAdapter(photos: List<String>) : RecyclerView.Adapter<WeatherPh
     // Involves populating data into the item through holder
     override fun onBindViewHolder(holder: WeatherPhotoAdapter.ViewHolder, position: Int) {
         val photoPath = mPhotos!![position]
+        val bitmap = BitmapFactory.decodeFile(photoPath)
 
         // Set item views based on your views and data model
-        holder.img.setImageBitmap(BitmapFactory.decodeFile(photoPath))
+        holder.img.setImageBitmap(bitmap)
         holder.share.setOnClickListener {
             shareWeatherPhoto(holder.itemView.context, photoPath)
         }

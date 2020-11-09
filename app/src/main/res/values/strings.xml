@@ -11,4 +11,5 @@
     <string name="share_title">Share your weather photo using</string>
     <string name="history">History</string>
     <string name="share">Share</string>
+    <string name="not_found_data">There is no saved photos to show</string>
 </resources>

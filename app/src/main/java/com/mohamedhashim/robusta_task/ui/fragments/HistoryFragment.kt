@@ -41,7 +41,10 @@ class HistoryFragment : DataBindingFragment() {
                         .toString() + base_path
 
         val list = createGridItems(path)!!
-
+        if (list.isNotEmpty()) {
+            iv_not_found.visibility = View.INVISIBLE
+            tx_not_found.visibility = View.INVISIBLE
+        }
         val adapter = WeatherPhotoAdapter(list)
 
         recyclerView.adapter = adapter
