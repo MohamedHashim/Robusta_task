@@ -4,4 +4,9 @@
     <dimen name="radius_10">10dp</dimen>
     <dimen name="margin_5">5dp</dimen>
     <dimen name="tv_size_20">20dp</dimen>
+    <dimen name="corner_radius_25">25dp</dimen>
+    <dimen name="elevation_5">5dp</dimen>
+    <dimen name="margin_10">10dp</dimen>
+    <dimen name="margin_15">15dp</dimen>
+    <dimen name="margin_25">25dp</dimen>
 </resources>

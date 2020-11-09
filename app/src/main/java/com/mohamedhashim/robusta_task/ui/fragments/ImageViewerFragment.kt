@@ -1,7 +1,6 @@
 package com.mohamedhashim.robusta_task.ui.fragments
 
 import android.content.Context
-import android.content.Intent
 import android.content.res.Resources
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
@@ -13,10 +12,10 @@ import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.MimeTypeMap
-import android.widget.Toast
 import com.mohamedhashim.robusta_task.R
 import com.mohamedhashim.robusta_task.base.DataBindingFragment
+import com.mohamedhashim.robusta_task.common.extensions.saveWeatherPhoto
+import com.mohamedhashim.robusta_task.common.extensions.shareWeatherPhoto
 import com.mohamedhashim.robusta_task.common.extensions.toast
 import com.mohamedhashim.robusta_task.data.response.WeatherResponse
 import com.mohamedhashim.robusta_task.databinding.FragmentImageViewerBinding
@@ -24,8 +23,6 @@ import com.mohamedhashim.robusta_task.ui.viewmodels.ImageViewerViewModel
 import kotlinx.android.synthetic.main.fragment_image_viewer.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.File
-import java.io.FileOutputStream
-import java.io.OutputStream
 
 
 /**
@@ -37,13 +34,13 @@ class ImageViewerFragment : DataBindingFragment() {
     private val viewModel: ImageViewerViewModel by viewModel()
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         photoPath = requireArguments().get(CameraFragment.photoPathKey).toString()
         return binding<FragmentImageViewerBinding>(
-            inflater, R.layout.fragment_image_viewer, container
+                inflater, R.layout.fragment_image_viewer, container
         ).apply {
             viewModel = this@ImageViewerFragment.viewModel
             lifecycleOwner = this@ImageViewerFragment
@@ -68,59 +65,30 @@ class ImageViewerFragment : DataBindingFragment() {
 //        val res = drawTextToBitmap(activity!!, bannerBitmap, "")
 
                 val scaledBanner = Bitmap.createScaledBitmap(
-                    fullBitmap!!,
-                    capturedPhoto.width,
-                    capturedPhoto.height / 4,
-                    false
+                        fullBitmap!!,
+                        capturedPhoto.width,
+                        capturedPhoto.height / 4,
+                        false
                 )
 
                 val final = drawBitmapToBitmap(activity!!, capturedPhoto, scaledBanner)
                 imageView.setImageBitmap(final)
-                saveWeatherPhoto(final!!)
+                saveWeatherPhoto(activity!!, final!!, photoPath)
                 share.setOnClickListener {
-                    shareWeatherPhoto()
+                    shareWeatherPhoto(activity!!, photoPath)
                 }
             }
         }
     }
 
     private fun observeMessages() =
-        this.viewModel.toastLiveData.observe(viewLifecycleOwner, { context?.toast(it.toString()) })
+            this.viewModel.toastLiveData.observe(viewLifecycleOwner, { context?.toast(it.toString()) })
 
-    private fun saveWeatherPhoto(bitmap: Bitmap) {
-        var fOut: OutputStream? = null
-        val file = File(photoPath)
-        fOut = FileOutputStream(file)
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 85, fOut)
-        fOut.flush()
-        fOut.close()
-        MediaStore.Images.Media.insertImage(
-            activity!!.contentResolver,
-            file.absolutePath,
-            file.name,
-            file.name
-        )
-    }
-
-    private fun shareWeatherPhoto() {
-        try {
-            val myFile: File = File(photoPath)
-            val mime = MimeTypeMap.getSingleton()
-            val ext = myFile.name.substring(myFile.name.lastIndexOf(".") + 1)
-            val type = mime.getMimeTypeFromExtension(ext)
-            val sharingIntent = Intent("android.intent.action.SEND")
-            sharingIntent.type = type
-            sharingIntent.putExtra("android.intent.extra.STREAM", Uri.fromFile(myFile))
-            startActivity(Intent.createChooser(sharingIntent, getString(R.string.share_title)))
-        } catch (e: Exception) {
-            Toast.makeText(activity, e.message, Toast.LENGTH_SHORT).show()
-        }
-    }
 
     private fun drawBitmapToBitmap(
-        gContext: Context,
-        bmp: Bitmap,
-        b: Bitmap
+            gContext: Context,
+            bmp: Bitmap,
+            b: Bitmap
     ): Bitmap? {
         val resources: Resources = gContext.resources
         val scale: Float = resources.displayMetrics.density
@@ -164,11 +132,11 @@ class ImageViewerFragment : DataBindingFragment() {
             return drawable.bitmap
         }
         val bitmap =
-            Bitmap.createBitmap(
-                drawable.intrinsicWidth,
-                drawable.intrinsicHeight,
-                Bitmap.Config.ARGB_8888
-            )
+                Bitmap.createBitmap(
+                        drawable.intrinsicWidth,
+                        drawable.intrinsicHeight,
+                        Bitmap.Config.ARGB_8888
+                )
         val canvas = Canvas(bitmap)
         drawable.setBounds(0, 0, canvas.width, canvas.height)
         drawable.alpha = 190
@@ -178,9 +146,9 @@ class ImageViewerFragment : DataBindingFragment() {
 
 
     private fun drawTextToBitmap(
-        gContext: Context,
-        bmp: Bitmap,
-        data: WeatherResponse
+            gContext: Context,
+            bmp: Bitmap,
+            data: WeatherResponse
     ): Bitmap? {
         val resources: Resources = gContext.resources
         val scale: Float = resources.displayMetrics.density
