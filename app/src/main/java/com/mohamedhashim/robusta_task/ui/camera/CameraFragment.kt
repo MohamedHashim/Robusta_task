@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
@@ -18,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import com.mohamedhashim.robusta_task.R
 import com.mohamedhashim.robusta_task.base.DataBindingFragment
 import com.mohamedhashim.robusta_task.common.extensions.getOutputDirectory
+import com.mohamedhashim.robusta_task.common.extensions.toast
 import com.mohamedhashim.robusta_task.databinding.FragmentCameraBinding
 import com.mohamedhashim.robusta_task.ui.main.MainViewModel
 import kotlinx.android.synthetic.main.fragment_camera.*
@@ -27,6 +27,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+
 
 /**
  * Created by Mohamed Hashim on 11/8/2020.
@@ -60,8 +61,8 @@ class CameraFragment : DataBindingFragment() {
 
         startCamera()
         // Set up the listener for take photo button
-        camera_capture_button.setOnClickListener { takePhoto()
-        findNavController().navigate(R.id.action_cameraFragment_to_imageViewerFragment)}
+        //TODO make it in binding adapter
+        camera_capture_button.setOnClickListener { takePhoto() }
 
         outputDirectory = getOutputDirectory(activity!!)
 
@@ -138,14 +139,19 @@ class CameraFragment : DataBindingFragment() {
             ContextCompat.getMainExecutor(activity),
             object : ImageCapture.OnImageSavedCallback {
                 override fun onError(exc: ImageCaptureException) {
-                    Log.e(TAG, "Photo capture failed: ${exc.message}", exc)
+                    val msg = getString(R.string.capture_failed) + "${exc.message}"
+                    Log.e(TAG, msg, exc)
+                    activity!!.toast(msg)
                 }
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                     val savedUri = Uri.fromFile(photoFile)
-                    val msg = "Photo capture succeeded: $savedUri"
-                    Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show()
-                    Log.d(TAG, msg)
+                    val msg = getString(R.string.capture_succeeded) + "$savedUri"
+                    Log.i(TAG, msg)
+                    findNavController().navigate(
+                        R.id.action_cameraFragment_to_imageViewerFragment,
+                        createArguments(savedUri.path.toString())
+                    )
                 }
             })
     }
@@ -153,7 +159,13 @@ class CameraFragment : DataBindingFragment() {
     companion object {
         private const val TAG = "CameraXBasic"
         private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
+        const val photoPathKey = "photoPathKey"
         const val REQUEST_CODE_PERMISSIONS = 10
         val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
+        fun createArguments(photoPath: String): Bundle {
+            val bundle = Bundle()
+            bundle.putString(photoPathKey, photoPath)
+            return bundle
+        }
     }
 }

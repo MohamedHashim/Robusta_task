@@ -6,4 +6,6 @@
     <string name="permission_not_granted">Permissions not granted by the user.</string>
     <string name="permission_granted">Permission granted. Thank you!</string>
     <string name="take_photo">Take Photo</string>
+    <string name="capture_failed">"Photo capture failed: "</string>
+    <string name="capture_succeeded">"Photo capture succeeded: "</string>
 </resources>
