@@ -148,6 +148,7 @@ class CameraFragment : DataBindingFragment() {
                     val savedUri = Uri.fromFile(photoFile)
                     val msg = getString(R.string.capture_succeeded) + "$savedUri"
                     Log.i(TAG, msg)
+                    activity!!.toast(msg)
                     findNavController().navigate(
                         R.id.action_cameraFragment_to_imageViewerFragment,
                         createArguments(savedUri.path.toString())

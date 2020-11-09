@@ -4,12 +4,17 @@
     <size
         android:width="300dp"
         android:height="300dp" />
-    <solid android:color="#26919796" />
+<!--    <solid android:color="#5632C479" />-->
 
-    <corners android:bottomLeftRadius="0dp"
-        android:topLeftRadius="15dp"
-        android:bottomRightRadius="15dp"
-        android:topRightRadius="0dp" />
-    <stroke android:width="2dp" android:color="#CCCC"/>
+    <gradient
+        android:angle="90"
+        android:centerColor="#2609EDD3"
+        android:endColor="#4Db5b6d2"
+        android:startColor="#4D97B2C3"
+        android:type="linear" />
+
+    <corners android:bottomLeftRadius="30dp"
+        android:bottomRightRadius="30dp" />
+    <stroke android:width="2dp" android:color="#56000000"/>
 
 </shape>
